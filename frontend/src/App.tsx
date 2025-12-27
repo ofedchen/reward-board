@@ -23,7 +23,7 @@ function App() {
   function redeemReward(id: number) {
     setRewards(
       rewards.map((r) => {
-        if (r.id === id) return { ...r, redeemed: true };
+        if (r.id === id) return { ...r, redeemed: !r.redeemed };
         else return r;
       })
     );
@@ -65,6 +65,7 @@ function App() {
                   <textarea
                     value={r.name}
                     onChange={(e) => changeReward(r.id, e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
                   />
                 </div>
               </div>
