@@ -164,3 +164,21 @@ button:focus-visible {
   }
 
 }
+
+@media (max-width: 698px) {
+
+  .fullcard {
+    max-width: 210px;
+  }
+}
+
+@media (max-width: 490px) {
+  .container {
+    min-width: 300px;
+  }
+
+  .starId {
+    width: 40px;
+    height: 40px;
+  }
+}
