@@ -65,6 +65,7 @@ p {
 .uppercard {
   height: 80px;
   border-radius: 15px;
+  padding: 5px 10px;
 }
 
 .lowercard {
@@ -72,16 +73,16 @@ p {
   background-color: #242424;
   transform: rotateZ(-2deg);
   z-index: 0;
+  padding-block: 7px;
 }
 
 .uppercard {
+  width: 100%;
   background-color: rgb(111, 255, 0);
   transform: rotateZ(2deg);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-inline: 10px;
-  box-sizing: border-box;
   position: relative;
   top: -10px;
   left: 15px;

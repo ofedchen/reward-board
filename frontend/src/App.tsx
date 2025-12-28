@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 type Reward = {
@@ -8,17 +8,32 @@ type Reward = {
 };
 
 function App() {
-  const [rewards, setRewards] = useState<Reward[]>([
-    { id: 1, name: "1 EPISODE OF MR. ROBOT", redeemed: false },
-    { id: 2, name: "SECRET ABOUT RICHARD", redeemed: false },
-    { id: 3, name: "question / secret / dare", redeemed: false },
-    { id: 4, name: "i give you a small present", redeemed: false },
-    { id: 5, name: "SURPRISE VIDEO", redeemed: false },
-    { id: 6, name: "i play carcassonne with you", redeemed: false },
-    { id: 7, name: "bring you something from portugal", redeemed: false },
-    { id: 8, name: "eat something sweet", redeemed: false },
-    { id: 9, name: "you give me another challenge", redeemed: false },
-  ]);
+  const [rewards, setRewards] = useState<Reward[]>(() => {
+    const stored = localStorage.getItem("rewards");
+    if (stored) {
+      try {
+        const saved = JSON.parse(stored);
+        if (Array.isArray(saved) && saved.length > 0) return saved;
+      } catch {
+        console.log(stored);
+      }
+    }
+    return [
+      { id: 1, name: "1 EPISODE OF MR. ROBOT", redeemed: false },
+      { id: 2, name: "SECRET ABOUT RICHARD", redeemed: false },
+      { id: 3, name: "question / secret / dare", redeemed: false },
+      { id: 4, name: "i give you a small present", redeemed: false },
+      { id: 5, name: "SURPRISE VIDEO", redeemed: false },
+      { id: 6, name: "i play carcassonne with you", redeemed: false },
+      { id: 7, name: "bring you something from portugal", redeemed: false },
+      { id: 8, name: "eat something sweet", redeemed: false },
+      { id: 9, name: "you give me another challenge", redeemed: false },
+    ];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("rewards", JSON.stringify(rewards));
+  }, [rewards]);
 
   function redeemReward(id: number) {
     setRewards(
@@ -56,7 +71,11 @@ function App() {
       <section className="container">
         {rewards.map((r) => {
           return (
-            <div onClick={() => redeemReward(r.id)} className="fullcard">
+            <div
+              key={r.id}
+              onClick={() => redeemReward(r.id)}
+              className="fullcard"
+            >
               <div className="starId">
                 <p>{r.id}</p>
               </div>
@@ -66,6 +85,12 @@ function App() {
                     value={r.name}
                     onChange={(e) => changeReward(r.id, e.target.value)}
                     onClick={(e) => e.stopPropagation()}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        (e.target as HTMLTextAreaElement).blur();
+                      }
+                    }}
                   />
                 </div>
               </div>
