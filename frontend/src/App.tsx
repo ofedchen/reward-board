@@ -1,105 +1,94 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-
-type Reward = {
-  id: number;
-  name: string;
-  redeemed: boolean;
-};
+import Onboarding from "./Onboarding";
+import RewardBoard from "./RewardBoard";
+import type { AppConfig } from "./types";
+import { clearConfig, loadConfig, saveConfig } from "./utils/storage";
 
 function App() {
-  const [rewards, setRewards] = useState<Reward[]>(() => {
-    const stored = localStorage.getItem("rewards");
-    if (stored) {
-      try {
-        const saved = JSON.parse(stored);
-        if (Array.isArray(saved) && saved.length > 0) return saved;
-      } catch {
-        console.log(stored);
-      }
-    }
-    return [
-      { id: 1, name: "1 EPISODE OF MR. ROBOT", redeemed: false },
-      { id: 2, name: "SECRET ABOUT RICHARD", redeemed: false },
-      { id: 3, name: "question / secret / dare", redeemed: false },
-      { id: 4, name: "i give you a small present", redeemed: false },
-      { id: 5, name: "SURPRISE VIDEO", redeemed: false },
-      { id: 6, name: "i play carcassonne with you", redeemed: false },
-      { id: 7, name: "bring you something from portugal", redeemed: false },
-      { id: 8, name: "eat something sweet", redeemed: false },
-      { id: 9, name: "you give me another challenge", redeemed: false },
-    ];
-  });
+  const [config, setConfig] = useState<AppConfig | null>(() => loadConfig());
 
   useEffect(() => {
-    localStorage.setItem("rewards", JSON.stringify(rewards));
-  }, [rewards]);
+    if (config && config.onboardingCompleted) {
+      saveConfig(config);
+    }
+  }, [config]);
 
-  function redeemReward(id: number) {
-    setRewards(
-      rewards.map((r) => {
-        if (r.id === id) return { ...r, redeemed: !r.redeemed };
-        else return r;
-      })
-    );
+  function handleOnboardingComplete(nextConfig: AppConfig): void {
+    saveConfig(nextConfig);
+    setConfig(nextConfig);
   }
 
-  function changeReward(id: number, text: string) {
-    setRewards(
-      rewards.map((r) => {
-        if (r.id === id) return { ...r, name: text };
-        else return r;
-      })
-    );
+  function handleRewardRedeem(id: number): void {
+    setConfig((previousConfig) => {
+      if (!previousConfig || !previousConfig.onboardingCompleted) {
+        return previousConfig;
+      }
+
+      return {
+        ...previousConfig,
+        rewards: previousConfig.rewards.map((reward) => {
+          if (reward.id === id) {
+            return { ...reward, redeemed: !reward.redeemed };
+          }
+          return reward;
+        }),
+      };
+    });
   }
 
-  function refreshRewards() {
-    setRewards(
-      rewards.map((r) => {
-        return { ...r, redeemed: false };
-      })
-    );
+  function handleRewardChange(id: number, text: string): void {
+    setConfig((previousConfig) => {
+      if (!previousConfig || !previousConfig.onboardingCompleted) {
+        return previousConfig;
+      }
+
+      return {
+        ...previousConfig,
+        rewards: previousConfig.rewards.map((reward) => {
+          if (reward.id === id) {
+            return { ...reward, name: text };
+          }
+          return reward;
+        }),
+      };
+    });
+  }
+
+  function handleRefreshAllRewards(): void {
+    setConfig((previousConfig) => {
+      if (!previousConfig || !previousConfig.onboardingCompleted) {
+        return previousConfig;
+      }
+
+      return {
+        ...previousConfig,
+        rewards: previousConfig.rewards.map((reward) => ({ ...reward, redeemed: false })),
+      };
+    });
+  }
+
+  function handleReset(): void {
+    clearConfig();
+    setConfig(null);
+  }
+
+  if (!config || !config.onboardingCompleted) {
+    return <Onboarding onComplete={handleOnboardingComplete} />;
   }
 
   return (
-    <main>
-      <h1>yo Hampus, choose your reward 🎉</h1>
-      <p>
-        Have you edited the video for 50 min? Well done, man! You're killing it,
-        now get your reward!
-      </p>
-      <section className="container">
-        {rewards.map((r) => {
-          return (
-            <div
-              key={r.id}
-              onClick={() => redeemReward(r.id)}
-              className="fullcard"
-            >
-              <div className="starId">
-                <p>{r.id}</p>
-              </div>
-              <div className="lowercard">
-                <div className={`uppercard${r.redeemed ? " redeemed" : ""}`}>
-                  <textarea
-                    value={r.name}
-                    onChange={(e) => changeReward(r.id, e.target.value)}
-                    onClick={(e) => e.stopPropagation()}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        e.preventDefault();
-                        (e.target as HTMLTextAreaElement).blur();
-                      }
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </section>
-      <button onClick={refreshRewards}>Refresh all</button>
-    </main>
+    <RewardBoard
+      userName={config.userName}
+      activity={config.activity}
+      duration={config.duration}
+      timeUnit={config.timeUnit}
+      rewards={config.rewards}
+      onRewardRedeem={handleRewardRedeem}
+      onRewardChange={handleRewardChange}
+      onRefreshAll={handleRefreshAllRewards}
+      onReset={handleReset}
+    />
   );
 }
 

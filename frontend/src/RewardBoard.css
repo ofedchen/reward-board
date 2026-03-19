@@ -1,0 +1,128 @@
+.container {
+  background-color: #646cff;
+  max-width: 60em;
+  min-width: 500px;
+  min-height: 500px;
+  margin-block: 2em;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 1em 1.5em;
+}
+
+.fullcard {
+  display: flex;
+  place-items: center;
+  position: relative;
+  margin-block: 0.2em;
+  cursor: pointer;
+}
+
+.fullcard:hover {
+  border: #ffffff;
+}
+
+.lowercard,
+.uppercard {
+  height: 80px;
+  border-radius: 15px;
+  padding: 5px 10px;
+}
+
+.lowercard {
+  width: 100%;
+  background-color: #242424;
+  transform: rotateZ(-2deg);
+  z-index: 0;
+  padding-block: 7px;
+}
+
+.uppercard {
+  width: 100%;
+  background-color: rgb(111, 255, 0);
+  transform: rotateZ(2deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: -10px;
+  left: 15px;
+}
+
+.fullcard .uppercard.redeemed {
+  background-color: #959ea7 !important;
+}
+
+.fullcard:nth-child(4n) .uppercard {
+  background-color: rgb(24, 238, 217);
+}
+
+.fullcard:nth-last-child(4n) .uppercard {
+  background-color: rgb(239, 207, 30);
+}
+
+.fullcard:nth-child(5) .uppercard {
+  background-color: rgb(253, 49, 216);
+}
+
+.container textarea {
+  background-color: transparent;
+  border: none;
+  color: #1a1a1a;
+  font-weight: 600;
+  font-size: 1.2em;
+  width: 100%;
+  text-align: center;
+}
+
+.starId {
+  width: 50px;
+  height: 50px;
+  background-image: url("/icons8-star-48.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a1a1a;
+  position: absolute;
+  bottom: 10px;
+  left: -15px;
+  z-index: 1;
+}
+
+.starId p {
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+}
+
+.reward-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.reward-actions .reconfigure-button {
+  opacity: 0.9;
+}
+
+@media (max-width: 698px) {
+  .fullcard {
+    max-width: 210px;
+  }
+}
+
+@media (max-width: 490px) {
+  .container {
+    min-width: 300px;
+  }
+
+  .starId {
+    width: 40px;
+    height: 40px;
+  }
+}
