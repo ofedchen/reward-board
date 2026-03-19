@@ -1,5 +1,5 @@
 .container {
-  background-color: #646cff;
+  background-color: var(--color-primary);
   max-width: 60em;
   min-width: 500px;
   min-height: 500px;
@@ -33,7 +33,7 @@
 
 .lowercard {
   width: 100%;
-  background-color: #242424;
+  background-color: var(--color-bg);
   transform: rotateZ(-2deg);
   z-index: 0;
   padding-block: 7px;
@@ -41,7 +41,7 @@
 
 .uppercard {
   width: 100%;
-  background-color: rgb(111, 255, 0);
+  background-color: var(--color-accent);
   transform: rotateZ(2deg);
   display: flex;
   align-items: center;
@@ -52,25 +52,25 @@
 }
 
 .fullcard .uppercard.redeemed {
-  background-color: #959ea7 !important;
+  background-color: var(--color-redeemed) !important;
 }
 
 .fullcard:nth-child(4n) .uppercard {
-  background-color: rgb(24, 238, 217);
+  background-color: var(--color-accent-cyan);
 }
 
 .fullcard:nth-last-child(4n) .uppercard {
-  background-color: rgb(239, 207, 30);
+  background-color: var(--color-accent-yellow);
 }
 
 .fullcard:nth-child(5) .uppercard {
-  background-color: rgb(253, 49, 216);
+  background-color: var(--color-accent-pink);
 }
 
 .container textarea {
   background-color: transparent;
   border: none;
-  color: #1a1a1a;
+  color: var(--color-text-on-accent);
   font-weight: 600;
   font-size: 1.2em;
   width: 100%;
@@ -86,7 +86,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #1a1a1a;
+  color: var(--color-text-on-accent);
   position: absolute;
   bottom: 10px;
   left: -15px;
@@ -107,6 +107,13 @@
 }
 
 .reward-actions .reconfigure-button {
+  background-color: var(--color-text-secondary);
+  color: var(--color-bg);
+  opacity: 1;
+}
+
+.reward-actions .reconfigure-button:hover {
+  border-color: var(--color-text-secondary);
   opacity: 0.9;
 }
 

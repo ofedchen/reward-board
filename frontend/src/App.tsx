@@ -2,11 +2,17 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Onboarding from "./Onboarding";
 import RewardBoard from "./RewardBoard";
+import ThemeToggle from "./ThemeToggle";
 import type { AppConfig } from "./types";
-import { clearConfig, loadConfig, saveConfig } from "./utils/storage";
+import { clearConfig, getTheme, loadConfig, saveConfig, saveTheme, type Theme } from "./utils/storage";
 
 function App() {
   const [config, setConfig] = useState<AppConfig | null>(() => loadConfig());
+  const [theme, setTheme] = useState<Theme>(() => getTheme());
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
 
   useEffect(() => {
     if (config && config.onboardingCompleted) {
@@ -73,22 +79,36 @@ function App() {
     setConfig(null);
   }
 
+  function handleThemeToggle(): void {
+    const nextTheme: Theme = theme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+    saveTheme(nextTheme);
+  }
+
   if (!config || !config.onboardingCompleted) {
-    return <Onboarding onComplete={handleOnboardingComplete} />;
+    return (
+      <>
+        <ThemeToggle theme={theme} onToggle={handleThemeToggle} />
+        <Onboarding onComplete={handleOnboardingComplete} />
+      </>
+    );
   }
 
   return (
-    <RewardBoard
-      userName={config.userName}
-      activity={config.activity}
-      duration={config.duration}
-      timeUnit={config.timeUnit}
-      rewards={config.rewards}
-      onRewardRedeem={handleRewardRedeem}
-      onRewardChange={handleRewardChange}
-      onRefreshAll={handleRefreshAllRewards}
-      onReset={handleReset}
-    />
+    <>
+      <ThemeToggle theme={theme} onToggle={handleThemeToggle} />
+      <RewardBoard
+        userName={config.userName}
+        activity={config.activity}
+        duration={config.duration}
+        timeUnit={config.timeUnit}
+        rewards={config.rewards}
+        onRewardRedeem={handleRewardRedeem}
+        onRewardChange={handleRewardChange}
+        onRefreshAll={handleRefreshAllRewards}
+        onReset={handleReset}
+      />
+    </>
   );
 }
 

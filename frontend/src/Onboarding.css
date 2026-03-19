@@ -10,7 +10,7 @@
 .onboarding-card {
   width: 100%;
   max-width: 720px;
-  background-color: #242424;
+  background-color: var(--color-bg);
   border-radius: 20px;
   padding: 32px;
   box-sizing: border-box;
@@ -42,7 +42,7 @@
   font-size: clamp(2rem, 5vw, 3.2em);
   font-weight: 800;
   margin: 0 0 16px 0;
-  background: linear-gradient(135deg, #646cff, #6fff00);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -51,7 +51,7 @@
 }
 
 .onboarding-header p {
-  color: #a0aab2;
+  color: var(--color-text-secondary);
   margin: 8px 0;
   position: relative;
   z-index: 1;
@@ -71,22 +71,22 @@
 
 .onboarding-field label {
   font-weight: 600;
-  color: #fff;
+  color: var(--color-text-primary);
   transition: color 0.2s ease;
 }
 
 .onboarding-field:focus-within label {
-  color: #6fff00;
+  color: var(--color-accent);
 }
 
 .onboarding-field input[type="text"],
 .onboarding-field input[type="number"],
 .onboarding-field select {
-  background-color: #1a1a1a;
-  border: 1px solid #333;
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 12px 16px;
-  color: #fff;
+  color: var(--color-text-primary);
   font-size: 1REM;
   font-family: inherit;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -95,7 +95,7 @@
 .onboarding-field input:focus,
 .onboarding-field select:focus {
   outline: none;
-  border-color: #646cff;
+  border-color: var(--color-primary);
   box-shadow: 0 0 0 2px rgba(100, 108, 255, 0.2);
 }
 
@@ -113,13 +113,13 @@
 }
 
 .onboarding-error {
-  color: #ff4b4b;
+  color: var(--color-error);
   font-size: 0.875rem;
   margin: 0;
 }
 
 .onboarding-rewards {
-  background-color: #646cff;
+  background-color: var(--color-primary);
   border-radius: 20px;
   padding: 32px;
   margin-top: 16px;
@@ -127,7 +127,7 @@
 
 .onboarding-rewards h2 {
   margin: 0 0 8px 0;
-  color: #fff;
+  color: var(--color-text-primary);
   font-size: 1.5rem;
 }
 
@@ -144,7 +144,7 @@
 }
 
 .onboarding-reward-item {
-  background-color: #1a1a1a;
+  background-color: var(--color-bg-surface);
   border-radius: 15px;
   padding: 16px 16px 16px 40px;
   display: flex;
@@ -174,20 +174,20 @@
   align-items: center;
   font-weight: 800;
   font-size: 0.875rem;
-  color: #1a1a1a;
+  color: var(--color-text-on-accent);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.onboarding-reward-item:nth-child(5n + 1) .onboarding-reward-badge { background-color: rgb(111, 255, 0); }
-.onboarding-reward-item:nth-child(5n + 2) .onboarding-reward-badge { background-color: rgb(24, 238, 217); }
-.onboarding-reward-item:nth-child(5n + 3) .onboarding-reward-badge { background-color: rgb(239, 207, 30); }
-.onboarding-reward-item:nth-child(5n + 4) .onboarding-reward-badge { background-color: rgb(253, 49, 216); }
-.onboarding-reward-item:nth-child(5n + 5) .onboarding-reward-badge { background-color: rgb(111, 255, 0); }
+.onboarding-reward-item:nth-child(5n + 1) .onboarding-reward-badge { background-color: var(--color-accent); }
+.onboarding-reward-item:nth-child(5n + 2) .onboarding-reward-badge { background-color: var(--color-accent-cyan); }
+.onboarding-reward-item:nth-child(5n + 3) .onboarding-reward-badge { background-color: var(--color-accent-yellow); }
+.onboarding-reward-item:nth-child(5n + 4) .onboarding-reward-badge { background-color: var(--color-accent-pink); }
+.onboarding-reward-item:nth-child(5n + 5) .onboarding-reward-badge { background-color: var(--color-accent); }
 
 .onboarding-reward-item input {
   background: transparent;
   border: none;
-  color: #fff;
+  color: var(--color-text-primary);
   font-weight: 600;
   font-size: 1REM;
   width: 100%;
@@ -204,8 +204,8 @@
 
 .onboarding-submit {
   margin-top: 16px;
-  background-color: #6fff00;
-  color: #1a1a1a;
+  background-color: var(--color-accent);
+  color: var(--color-text-on-accent);
   font-size: 1.25rem;
   font-weight: 800;
   text-transform: uppercase;

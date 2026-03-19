@@ -2,8 +2,11 @@ import type { AppConfig, Reward, TimeUnit } from "../types";
 
 const CONFIG_KEY = "rewardBoardConfig";
 const OLD_REWARDS_KEY = "rewards";
+const THEME_KEY = "rewardBoardTheme";
 
 const VALID_TIME_UNITS: ReadonlySet<TimeUnit> = new Set(["min", "hour(s)", "day(s)"]);
+
+export type Theme = "light" | "dark";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
@@ -163,5 +166,25 @@ export function clearConfig(): void {
     localStorage.removeItem(CONFIG_KEY);
   } catch (error) {
     console.error("Failed to clear app config from localStorage", error);
+  }
+}
+
+export function getTheme(): Theme {
+  try {
+    const stored = localStorage.getItem(THEME_KEY);
+    if (stored && (stored === "light" || stored === "dark")) {
+      return stored;
+    }
+  } catch (error) {
+    console.error("Failed to read theme from localStorage", error);
+  }
+  return "dark"; // default theme
+}
+
+export function saveTheme(theme: Theme): void {
+  try {
+    localStorage.setItem(THEME_KEY, theme);
+  } catch (error) {
+    console.error("Failed to save theme to localStorage", error);
   }
 }
