@@ -184,6 +184,24 @@
 .onboarding-reward-item:nth-child(5n + 4) .onboarding-reward-badge { background-color: var(--color-accent-pink); }
 .onboarding-reward-item:nth-child(5n + 5) .onboarding-reward-badge { background-color: var(--color-accent); }
 
+.onboarding-reward-input-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.onboarding-char-count {
+  font-size: 0.7em;
+  color: rgba(255, 255, 255, 0.35);
+  font-weight: 400;
+  position: absolute;
+  bottom: -14px;
+  right: 0;
+}
+
+.onboarding-char-count.near-limit {
+  color: var(--color-error);
+}
+
 .onboarding-reward-item input {
   background: transparent;
   border: none;

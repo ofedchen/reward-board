@@ -4,7 +4,7 @@ import Onboarding from "./Onboarding";
 import RewardBoard from "./RewardBoard";
 import ThemeToggle from "./ThemeToggle";
 import type { AppConfig } from "./types";
-import { clearConfig, getTheme, loadConfig, saveConfig, saveTheme, type Theme } from "./utils/storage";
+import { getTheme, loadConfig, saveConfig, saveTheme, type Theme } from "./utils/storage";
 
 function App() {
   const [config, setConfig] = useState<AppConfig | null>(() => loadConfig());
@@ -75,8 +75,10 @@ function App() {
   }
 
   function handleReset(): void {
-    clearConfig();
-    setConfig(null);
+    setConfig((previousConfig) => {
+      if (!previousConfig) return null;
+      return { ...previousConfig, onboardingCompleted: false };
+    });
   }
 
   function handleThemeToggle(): void {
@@ -89,7 +91,7 @@ function App() {
     return (
       <>
         <ThemeToggle theme={theme} onToggle={handleThemeToggle} />
-        <Onboarding onComplete={handleOnboardingComplete} />
+        <Onboarding initialConfig={config ?? undefined} onComplete={handleOnboardingComplete} />
       </>
     );
   }

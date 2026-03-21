@@ -5,6 +5,7 @@ import "./Onboarding.css";
 
 type OnboardingProps = {
   onComplete: (config: AppConfig) => void;
+  initialConfig?: AppConfig;
 };
 
 type FormErrors = {
@@ -12,12 +13,12 @@ type FormErrors = {
   activity?: string;
 };
 
-function Onboarding({ onComplete }: OnboardingProps) {
-  const [userName, setUserName] = useState<string>("");
-  const [activity, setActivity] = useState<string>("");
-  const [duration, setDuration] = useState<number>(60);
-  const [timeUnit, setTimeUnit] = useState<TimeUnit>("min");
-  const [rewards, setRewards] = useState<Reward[]>(() => getDefaultRewards());
+function Onboarding({ onComplete, initialConfig }: OnboardingProps) {
+  const [userName, setUserName] = useState<string>(initialConfig?.userName ?? "");
+  const [activity, setActivity] = useState<string>(initialConfig?.activity ?? "");
+  const [duration, setDuration] = useState<number>(initialConfig?.duration ?? 60);
+  const [timeUnit, setTimeUnit] = useState<TimeUnit>(initialConfig?.timeUnit ?? "min");
+  const [rewards, setRewards] = useState<Reward[]>(() => initialConfig?.rewards ?? getDefaultRewards());
   const [formErrors, setFormErrors] = useState<FormErrors>({});
 
   function handleRewardChange(id: number, name: string): void {
@@ -173,15 +174,20 @@ function Onboarding({ onComplete }: OnboardingProps) {
               {rewards.map((reward) => (
                 <label key={reward.id} className="onboarding-reward-item">
                   <span className="onboarding-reward-badge">{reward.id}</span>
-                  <input
-                    type="text"
-                    value={reward.name}
-                    maxLength={200}
-                    onChange={(event) => {
-                      handleRewardChange(reward.id, event.target.value);
-                    }}
-                    aria-label={`Reward ${reward.id}`}
-                  />
+                  <div className="onboarding-reward-input-wrapper">
+                    <input
+                      type="text"
+                      value={reward.name}
+                      maxLength={60}
+                      onChange={(event) => {
+                        handleRewardChange(reward.id, event.target.value);
+                      }}
+                      aria-label={`Reward ${reward.id}`}
+                    />
+                    <span className={`onboarding-char-count${reward.name.length >= 55 ? " near-limit" : ""}`}>
+                      {reward.name.length}/60
+                    </span>
+                  </div>
                 </label>
               ))}
             </div>
