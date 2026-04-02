@@ -6,8 +6,8 @@
 .onboarding-root {
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 40px 24px;
+  align-items: flex-start;
+  padding: 16px 24px;
   min-height: 100vh;
   box-sizing: border-box;
   background-color: var(--color-bg);
@@ -264,6 +264,7 @@
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(100, 108, 255, 0.4);
   background: var(--color-accent);
+  color: var(--color-text-on-accent)
 }
 
 .base-button:active {
@@ -326,7 +327,7 @@
   align-items: center;
   gap: 60px;
   width: 100%;
-  padding-bottom: 80px;
+  padding-bottom: 40px;
 }
 
 @media (min-width: 960px) {
@@ -476,7 +477,6 @@
 /* 3 STEPS SECTION */
 .landing-steps {
   width: 100%;
-  padding: 60px 0;
 }
 
 .steps-container {
@@ -530,7 +530,7 @@
 /* NAVIGATION (Reward Board Logo) */
 .landing-nav {
   width: 100%;
-  padding: 32px 0;
+  padding: 2px 0;
   display: flex;
   justify-content: flex-start;
   margin-bottom: 2vh;
