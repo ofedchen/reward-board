@@ -14,6 +14,7 @@ type FormErrors = {
 };
 
 function Onboarding({ onComplete, initialConfig }: OnboardingProps) {
+  const [step, setStep] = useState<"landing" | "setup">("landing");
   const [userName, setUserName] = useState<string>(initialConfig?.userName ?? "");
   const [activity, setActivity] = useState<string>(initialConfig?.activity ?? "");
   const [duration, setDuration] = useState<number>(initialConfig?.duration ?? 60);
@@ -68,134 +69,193 @@ function Onboarding({ onComplete, initialConfig }: OnboardingProps) {
     onComplete(config);
   }
 
-  return (
-    <main className="onboarding-root">
-      <section className="onboarding-card" aria-labelledby="onboarding-title">
-        <header className="onboarding-header">
-          <h1 id="onboarding-title">Welcome to your Reward Board</h1>
-          <p>
-            Build momentum with tiny wins. Set a clear goal, stay focused for a time block,
-            and unlock rewards when you show up for yourself.
-          </p>
-          <p>Set your goal, work towards it, and reward yourself along the way!</p>
-        </header>
-
-        <form className="onboarding-form" onSubmit={handleSubmit} noValidate>
-          <div className="onboarding-field">
-            <label htmlFor="user-name">Your Name</label>
-            <input
-              id="user-name"
-              type="text"
-              placeholder="e.g., Hampus"
-              value={userName}
-              maxLength={50}
-              required
-              onChange={(event) => {
-                const nextName = event.target.value;
-                setUserName(nextName);
-
-                if (formErrors.userName) {
-                  setFormErrors((previousErrors) => ({ ...previousErrors, userName: undefined }));
-                }
-              }}
-              aria-invalid={Boolean(formErrors.userName)}
-              aria-describedby={formErrors.userName ? "user-name-error" : undefined}
-            />
-            {formErrors.userName ? (
-              <p id="user-name-error" className="onboarding-error" role="alert">
-                {formErrors.userName}
+  if (step === "landing") {
+    return (
+      <main className="onboarding-root fade-in">
+        <div className="landing-container">
+          <nav className="landing-nav">
+            <div className="landing-logo">Reward Board</div>
+          </nav>
+          
+          <section className="landing-hero">
+            <div className="landing-content">
+              <h1 className="landing-title">
+                Build momentum with <span className="text-secondary-highlight">tiny wins.</span>
+              </h1>
+              <p className="landing-subtitle">
+                Focus for a block of time, and treat yourself when you show up. Productivity that feels like a celebration.
               </p>
-            ) : null}
-          </div>
-
-          <div className="onboarding-field">
-            <label htmlFor="activity">What are you working on?</label>
-            <input
-              id="activity"
-              type="text"
-              placeholder="e.g., editing the video"
-              value={activity}
-              maxLength={100}
-              required
-              onChange={(event) => {
-                const nextActivity = event.target.value;
-                setActivity(nextActivity);
-
-                if (formErrors.activity) {
-                  setFormErrors((previousErrors) => ({ ...previousErrors, activity: undefined }));
-                }
-              }}
-              aria-invalid={Boolean(formErrors.activity)}
-              aria-describedby={formErrors.activity ? "activity-error" : undefined}
-            />
-            {formErrors.activity ? (
-              <p id="activity-error" className="onboarding-error" role="alert">
-                {formErrors.activity}
-              </p>
-            ) : null}
-          </div>
-
-          <div className="onboarding-field">
-            <label htmlFor="duration">For how long?</label>
-            <div className="onboarding-duration-row">
-              <input
-                id="duration"
-                type="number"
-                min={1}
-                value={duration}
-                onChange={(event) => {
-                  const nextDuration = Number(event.target.value);
-                  if (!Number.isFinite(nextDuration) || nextDuration < 1) {
-                    setDuration(1);
-                    return;
-                  }
-                  setDuration(nextDuration);
-                }}
-              />
-              <select
-                aria-label="Time unit"
-                value={timeUnit}
-                onChange={(event) => {
-                  setTimeUnit(event.target.value as TimeUnit);
-                }}
-              >
-                <option value="min">min</option>
-                <option value="hour(s)">hour(s)</option>
-                <option value="day(s)">day(s)</option>
-              </select>
+              <div className="landing-actions">
+                <button className="base-button landing-button" onClick={() => setStep("setup")}>
+                  Start Your Board
+                </button>
+              </div>
             </div>
-          </div>
 
-          <section className="onboarding-rewards" aria-labelledby="onboarding-rewards-title">
-            <h2 id="onboarding-rewards-title">Customize Your Rewards</h2>
-            <p>Edit these rewards or create your own!</p>
-
-            <div className="onboarding-rewards-list">
-              {rewards.map((reward) => (
-                <label key={reward.id} className="onboarding-reward-item">
-                  <span className="onboarding-reward-badge">{reward.id}</span>
-                  <div className="onboarding-reward-input-wrapper">
-                    <input
-                      type="text"
-                      value={reward.name}
-                      maxLength={60}
-                      onChange={(event) => {
-                        handleRewardChange(reward.id, event.target.value);
-                      }}
-                      aria-label={`Reward ${reward.id}`}
-                    />
-                    <span className={`onboarding-char-count${reward.name.length >= 55 ? " near-limit" : ""}`}>
-                      {reward.name.length}/60
-                    </span>
+            <div className="hero-visual">
+              <div className="task-card-wrapper slide-in" style={{ animationDelay: "0.2s" }}>
+                <div className="task-card-bg"></div>
+                <div className="task-card">
+                  <div className="task-card-top">
+                    <span className="task-tag">DRAFTING</span>
+                    <h3 className="task-title">Finish Garden Sketches</h3>
                   </div>
-                </label>
-              ))}
+                  <div className="task-card-divider"></div>
+                  <div className="task-reward">
+                    <div className="reward-icon-wrapper">
+                      <span className="reward-emoji" aria-hidden="true">🎁</span>
+                    </div>
+                    <div className="reward-details">
+                      <span className="reward-label">THE TREAT</span>
+                      <span className="reward-name">30m Pottery Class</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="earned-badge">
+                  <span className="star-icon" aria-hidden="true">⭐</span>
+                  <span>EARNED!</span>
+                </div>
+              </div>
             </div>
           </section>
 
-          <button className="onboarding-submit" type="submit">
-            Let's Go!
-          </button>
+          <section className="landing-steps">
+            <div className="steps-container">
+              <div className="step-card slide-in" style={{ animationDelay: "0.3s" }}>
+                <div className="step-number">1</div>
+                <h4 className="step-title">Set Focus</h4>
+                <p className="step-desc">Pick one tiny task that matters today. No big lists.</p>
+              </div>
+              <div className="step-card slide-in" style={{ animationDelay: "0.4s" }}>
+                <div className="step-number">2</div>
+                <h4 className="step-title">Pick Treat</h4>
+                <p className="step-desc">Connect it to a small joy. A coffee, a walk, or a nap.</p>
+              </div>
+              <div className="step-card slide-in" style={{ animationDelay: "0.5s" }}>
+                <div className="step-number">3</div>
+                <h4 className="step-title">Earn & Enjoy</h4>
+                <p className="step-desc">Cross it off and unlock your treat immediately.</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    );
+  }
+
+  return (
+    <main className="onboarding-root">
+      <section className="setup-view slide-in" aria-labelledby="onboarding-title">
+        <header className="setup-header">
+          <h2 id="onboarding-title">Let's set you up</h2>
+          <p>Define your goal and the rewards you'll earn along the way.</p>
+        </header>
+
+        <form className="setup-form" onSubmit={handleSubmit} noValidate>
+          <div className="form-group">
+            <div className="setup-field">
+              <label htmlFor="user-name">What's your name?</label>
+              <input
+                id="user-name"
+                type="text"
+                placeholder="e.g. Hampus"
+                value={userName}
+                maxLength={50}
+                required
+                onChange={(event) => {
+                  setUserName(event.target.value);
+                  if (formErrors.userName) {
+                    setFormErrors((prev) => ({ ...prev, userName: undefined }));
+                  }
+                }}
+                aria-invalid={Boolean(formErrors.userName)}
+              />
+              {formErrors.userName && <span className="setup-error">{formErrors.userName}</span>}
+            </div>
+
+            <div className="setup-field">
+              <label htmlFor="activity">What are you focusing on?</label>
+              <input
+                id="activity"
+                type="text"
+                placeholder="e.g. studying, coding, writing"
+                value={activity}
+                maxLength={100}
+                required
+                onChange={(event) => {
+                  setActivity(event.target.value);
+                  if (formErrors.activity) {
+                    setFormErrors((prev) => ({ ...prev, activity: undefined }));
+                  }
+                }}
+                aria-invalid={Boolean(formErrors.activity)}
+              />
+              {formErrors.activity && <span className="setup-error">{formErrors.activity}</span>}
+            </div>
+
+            <div className="setup-field duration-field">
+              <label htmlFor="duration">For how long?</label>
+              <div className="duration-inputs">
+                <input
+                  id="duration"
+                  type="number"
+                  min={1}
+                  value={duration}
+                  onChange={(event) => {
+                    const nextDuration = Number(event.target.value);
+                    if (!Number.isFinite(nextDuration) || nextDuration < 1) {
+                      setDuration(1);
+                      return;
+                    }
+                    setDuration(nextDuration);
+                  }}
+                />
+                <select
+                  aria-label="Time unit"
+                  value={timeUnit}
+                  onChange={(event) => {
+                    setTimeUnit(event.target.value as TimeUnit);
+                  }}
+                >
+                  <option value="min">min</option>
+                  <option value="hour(s)">hour(s)</option>
+                  <option value="day(s)">day(s)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div className="setup-rewards" aria-labelledby="onboarding-rewards-title">
+            <h3 id="onboarding-rewards-title">Your Rewards</h3>
+            <p className="rewards-hint">Customize what you get for completing your session.</p>
+            
+            <div className="rewards-grid">
+              {rewards.map((reward, i) => (
+                <div key={reward.id} className="reward-input-box">
+                  <span className="reward-number">{i + 1}</span>
+                  <input
+                    type="text"
+                    value={reward.name}
+                    maxLength={60}
+                    onChange={(event) => handleRewardChange(reward.id, event.target.value)}
+                    aria-label={`Reward ${reward.id}`}
+                  />
+                  {reward.name.length >= 55 && (
+                    <span className="reward-char-count">{reward.name.length}/60</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="setup-actions">
+            <button type="button" className="text-button" onClick={() => setStep("landing")}>
+              Back
+            </button>
+            <button type="submit" className="base-button setup-submit">
+              Start Board
+            </button>
+          </div>
         </form>
       </section>
     </main>
