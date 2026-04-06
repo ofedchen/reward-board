@@ -112,7 +112,7 @@ function Onboarding({ onComplete, initialConfig }: OnboardingProps) {
                   </div>
                 </div>
                 <div className="earned-badge">
-                  <span className="star-icon" aria-hidden="true">⭐</span>
+                  <span className="checkbox-icon" aria-hidden="true">✅</span>
                   <span>EARNED!</span>
                 </div>
               </div>
@@ -158,7 +158,7 @@ function Onboarding({ onComplete, initialConfig }: OnboardingProps) {
               <input
                 id="user-name"
                 type="text"
-                placeholder="e.g. Hampus"
+                placeholder="e.g. Jenny"
                 value={userName}
                 maxLength={50}
                 required
