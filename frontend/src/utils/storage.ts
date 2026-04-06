@@ -64,14 +64,14 @@ function isValidConfig(value: unknown): value is AppConfig {
 export function getDefaultRewards(): Reward[] {
   return [
     { id: 1, name: "1 EPISODE OF MR. ROBOT", redeemed: false },
-    { id: 2, name: "SUPERSECRET SECRET", redeemed: false },
-    { id: 3, name: "question / secret / dare", redeemed: false },
-    { id: 4, name: "i give you a small present", redeemed: false },
+    { id: 2, name: "listen to Daft Punk", redeemed: false },
+    { id: 3, name: "watch a cute alpaca video", redeemed: false },
+    { id: 4, name: "get coffee from Alkemisten", redeemed: false },
     { id: 5, name: "FUNNY VIDEO", redeemed: false },
-    { id: 6, name: "i play carcassonne with you", redeemed: false },
-    { id: 7, name: "bring you something from portugal", redeemed: false },
+    { id: 6, name: "play carcassonne for 30 min", redeemed: false },
+    { id: 7, name: "walk in the park with Svante", redeemed: false },
     { id: 8, name: "eat something sweet", redeemed: false },
-    { id: 9, name: "you give me another challenge", redeemed: false },
+    { id: 9, name: "cool activity with a friend", redeemed: false },
   ];
 }
 
