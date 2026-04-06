@@ -1,15 +1,28 @@
+.board-root {
+  padding: 1rem 2rem;
+  box-sizing: border-box;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+  h1 {
+    padding-top: 16px;
+  }
+
 .container {
   background-color: var(--color-primary);
   max-width: 60em;
-  min-width: 500px;
+  width: 100%;
   min-height: 500px;
   margin-block: 2em;
+  margin-inline: auto;
   border-radius: 20px;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
   gap: 20px;
   padding: 1em 1.5em;
+  box-sizing: border-box;
 }
 
 .fullcard {
@@ -138,8 +151,8 @@
   justify-content: center;
   color: var(--color-text-on-accent);
   position: absolute;
-  bottom: 10px;
-  left: -15px;
+  bottom: 5px;
+  left: -10px;
   z-index: 1;
 }
 
@@ -178,19 +191,80 @@
   color: #fff;
 }
 
-@media (max-width: 698px) {
+@media (max-width: 768px) {
+  .board-root {
+    padding: 3rem 1rem;
+  }
+
+  .container {
+    gap: 16px;
+    padding: 1.5em;
+    margin-block: 1.5em;
+  }
+
+  .lowercard,
+  .uppercard {
+    height: 70px;
+  }
+
   .fullcard {
-    max-width: 210px;
+    max-width: 240px;
   }
 }
 
-@media (max-width: 490px) {
+@media (max-width: 600px) {
+
   .container {
-    min-width: 300px;
+    min-height: auto;
+  }
+
+  .lowercard,
+  .uppercard {
+    height: 75px;
+  }
+
+  .fullcard {
+    max-width: 200px;
+    width: 100%;
   }
 
   .starId {
     width: 40px;
     height: 40px;
+    bottom: 3px;
+    left: -8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .board-root {
+    padding: 3rem 1.5rem;
+  }
+
+  .container {
+    min-height: auto;
+    border-radius: 16px;
+    margin-block: 1em;
+  }
+
+  .lowercard,
+  .uppercard {
+    height: 70px;
+  }
+
+  .reward-text {
+    font-size: 0.9em;
+    -webkit-line-clamp: 2;
+  }
+
+  .reward-actions {
+    gap: 0.5rem;
+  }
+
+  .starId {
+    width: 36px;
+    height: 36px;
+    bottom: 2px;
+    left: -6px;
   }
 }

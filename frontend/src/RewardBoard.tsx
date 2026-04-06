@@ -36,7 +36,7 @@ function RewardBoard({
   }
 
   return (
-    <main>
+    <main className="board-root">
       <h1>yo {userName}, choose your reward 🎉</h1>
       <p>
         Have you been {activity} for {duration} {timeUnit}? Well done! You&apos;re killing it -

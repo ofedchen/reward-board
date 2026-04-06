@@ -53,20 +53,24 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 main {
   width: 100%;
   margin: 0;
+  overflow-x: hidden;
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: clamp(1.5em, 8vw, 3.2em);
   line-height: 1.1;
+  margin: 0 0 0.5em;
 }
 
 p {
-  font-size: 1.2em;
+  font-size: clamp(0.95em, 4vw, 1.2em);
+  word-break: break-word;
 }
 
 
